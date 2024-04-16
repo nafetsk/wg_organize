@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -65,5 +66,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         for (int i = 0; i < roomnames.length; i++){
             rooms.add(new RoomModel(roomnames[i], dates[i]));
         }
+    }
+    public void editWG(View v){
+        Intent i = new Intent(this, EditWg.class);
+        startActivity(i);
     }
 }
