@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private Context contex;
@@ -83,4 +85,32 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+
+    public Cursor readAllDataFromSecondTable(){
+        String sqlQuery = "SELECT * FROM " + TABLE_NAME2;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(sqlQuery, null);
+        }
+        return cursor;
+    }
+    public ArrayList<String> getWgNames(){
+        String sqlQuery = "SELECT * FROM " + TABLE_NAME2;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(sqlQuery, null);
+        }
+        ArrayList<String> wgNames = new ArrayList<>();
+        while(cursor.moveToNext()){
+            wgNames.add(cursor.getString(1));
+        }
+        cursor.close();
+        return wgNames;
+
+    }
+
 }

@@ -30,9 +30,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> wgNames = new ArrayList<String>();
-    DataBaseHelper db = new DataBaseHelper(MainActivity.this);
 
+    DataBaseHelper db = new DataBaseHelper(MainActivity.this);
+    //ArrayList<String> wgNames = db.getWgNames();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 "WG 1", "WG 2", "WG 3", "WG 4", "WG 5"
         };
         */
-         getWgNames();
+         ArrayList<String> wgNames = getWgNames();
 
 
         Spinner s = (Spinner) findViewById(R.id.spinner);
@@ -78,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
         myView.setEnabled(false);
     }
 
-    public void getWgNames(){
+    public ArrayList<String> getWgNames(){
         Cursor cursor = db.readAllData();
+        ArrayList<String> wgNames = new ArrayList<>();
         if(cursor.getCount() == 0){
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 wgNames.add(cursor.getString(1));
             }
         }
+        return wgNames;
+
     }
 
 
