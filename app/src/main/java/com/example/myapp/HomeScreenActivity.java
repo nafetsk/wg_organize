@@ -32,12 +32,13 @@ public class HomeScreenActivity extends AppCompatActivity {
             return insets;
         });
 
-        // get Intent
-        Intent i = getIntent();
-        String name = i.getStringExtra("wg");
-
+        // Get Role
         TextView wgName = findViewById(R.id.wgname);
-        wgName.setText(name);
+        TextView mitbewohniName = findViewById(R.id.roleMitbewohni);
+        String wgRole = RoleManager.getWGName(this);
+        String mitbewohniRole = RoleManager.getMitbewohnerName(this);
+        wgName.setText(wgRole);
+        mitbewohniName.setText(mitbewohniRole);
 
 
         // Mitbewohni Recycler VieW

@@ -42,14 +42,25 @@ public class MainActivity extends AppCompatActivity {
                 "WG 1", "WG 2", "WG 3", "WG 4", "WG 5"
         };
         */
-         ArrayList<String> wgNames = getWgNames();
 
-
-        Spinner s = (Spinner) findViewById(R.id.spinner);
+        // WG Spinner
+        ArrayList<String> wgNames = getWgNames();
+        Spinner wgSpinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, wgNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter);
+        wgSpinner.setAdapter(adapter);
+
+
+        // Mitbewohni Spinner
+        ArrayList<String> mitbewohniNames = getMitbewohniNames();
+        Spinner mitbewohniSpinner = findViewById(R.id.spinner2);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, mitbewohniNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mitbewohniSpinner.setAdapter(adapter2);
+
+
     }
 
     public void addWg(View v){
@@ -60,23 +71,16 @@ public class MainActivity extends AppCompatActivity {
     public void selectWg(View v){
         // save WG name
         Spinner wgSpinner = findViewById(R.id.spinner);
+        Spinner mitbewohniSpinner = findViewById(R.id.spinner2);
         String wg = wgSpinner.getSelectedItem().toString();
-
+        String mitbewohni = mitbewohniSpinner.getSelectedItem().toString();
+        RoleManager.saveRole(this, wg, mitbewohni);
 
         // launch Homescreen
         Intent i = new Intent(this, HomeScreenActivity.class);
-        i.putExtra("wg", wg);
         startActivity(i);
     }
 
-    public void disableButton(View view){
-        Button b = (Button) view;
-        b.setText("New Button");
-    }
-    public void disableCertainView(View view){
-        View myView = findViewById(R.id.button1);
-        myView.setEnabled(false);
-    }
 
     public ArrayList<String> getWgNames(){
         Cursor cursor = db.readAllData();
@@ -90,9 +94,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return wgNames;
-
+        }
+    public ArrayList<String> getMitbewohniNames() {
+        Cursor cursor = db.readAllDataFromSecondTable();
+        ArrayList<String> mitbewohniNames = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                mitbewohniNames.add(cursor.getString(1));
+            }
+        }
+        return mitbewohniNames;
     }
-
 
 /*
     public void handleText(View v){
