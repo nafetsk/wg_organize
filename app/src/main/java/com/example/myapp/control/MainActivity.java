@@ -1,14 +1,13 @@
-package com.example.myapp;
+package com.example.myapp.control;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 
+import com.example.myapp.R;
 import com.example.myapp.model.RoleManager;
 import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
 import com.example.myapp.model.database.Mitbewohni;
-import com.example.myapp.model.database.MitbewohniDao;
 import com.example.myapp.model.database.Wohngemeinschaft;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +25,10 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
 
-
-    DataBaseHelper db = new DataBaseHelper(MainActivity.this);
-    //ArrayList<String> wgNames = db.getWgNames();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        String[] arraySpinner = new String[] {
-                "WG 1", "WG 2", "WG 3", "WG 4", "WG 5"
-        };
-        */
-
 
 
         // WG Spinner

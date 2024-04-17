@@ -21,6 +21,12 @@ public interface MitbewohniDao {
     */
     @Query("SELECT * FROM mitbewohni_table WHERE wg_name = :wgName")
     List<Mitbewohni> getMitbewohniByWgName(String wgName);
+
+    @Query("UPDATE mitbewohni_table SET number_of_rings = number_of_rings +1 WHERE wg_name = :wgName")
+    void incrementRings(String wgName);
+
+    @Query("UPDATE mitbewohni_table SET number_of_rings = number_of_rings -1 WHERE wg_name = :wgName AND name = :name")
+    void decrementRing(String wgName, String name);
     @Insert
     void insertAll(Mitbewohni... mitbewohnis);
 

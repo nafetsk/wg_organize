@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreenActivity">
+    tools:context=".control.HomeScreenActivity">
 
     <TextView
         android:id="@+id/wgname"
@@ -49,12 +49,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="12dp"
         android:text="DirtyMeter"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_mitbewohnis" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddRings" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dirtymeter"
@@ -68,6 +69,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="cleanNow"
         android:text="Jetzt Putzen!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,5 +98,16 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonAddRings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:onClick="incrementRings"
+        android:text="Ringe Verteilen!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_mitbewohnis" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

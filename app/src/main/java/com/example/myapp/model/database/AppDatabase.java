@@ -2,9 +2,12 @@ package com.example.myapp.model.database;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-@Database(entities = {Mitbewohni.class, Wohngemeinschaft.class}, version = 2)
+@TypeConverters(DateConverter.class)
+@Database(entities = {Mitbewohni.class, Wohngemeinschaft.class, Aufgaben.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MitbewohniDao mitbewohniDao();
     public abstract WohngemeinschaftDao wohngemeinschaftDao();
+    public abstract AufgabenDao aufgabenDao();
 }

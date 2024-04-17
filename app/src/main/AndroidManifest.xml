@@ -13,17 +13,17 @@
         android:theme="@style/Theme.MyApp"
         tools:targetApi="31" >
         <activity
-            android:name=".EditWg"
+            android:name=".control.EditWg"
             android:exported="false"
             android:theme="@style/Theme.MyApp" />
         <activity
-            android:name=".AddWg"
+            android:name=".control.AddWg"
             android:exported="false" />
         <activity
-            android:name=".HomeScreenActivity"
+            android:name=".control.HomeScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".control.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApp" >
             <intent-filter>

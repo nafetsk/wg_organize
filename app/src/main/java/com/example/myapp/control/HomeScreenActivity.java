@@ -1,4 +1,4 @@
-package com.example.myapp;
+package com.example.myapp.control;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,19 +13,20 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapp.MitbewohnisRecyclerViewAdapter;
+import com.example.myapp.R;
+import com.example.myapp.AufgabenRecyclerViewAdapter;
 import com.example.myapp.model.RoleManager;
-import com.example.myapp.model.RoomModel;
 import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
+import com.example.myapp.model.database.Aufgaben;
 import com.example.myapp.model.database.Mitbewohni;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 
-public class HomeScreenActivity extends AppCompatActivity {
-    ArrayList<RoomModel> rooms = new ArrayList<>();
-    DataBaseHelper db = new DataBaseHelper(this);
+public class HomeScreenActivity extends AppCompatActivity implements DeleteAufgabeListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +56,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         // DirtyMeter Recycler View
         RecyclerView rvDirtyMeter = findViewById(R.id.rv_dirtymeter);
-        setUpRooms();
-        RoomRecyclerViewAdapter rvAdapterDirtyMeter = new RoomRecyclerViewAdapter(this, rooms);
+        ArrayList<Aufgaben> aufgaben = getAufgaben();
+        AufgabenRecyclerViewAdapter rvAdapterDirtyMeter = new AufgabenRecyclerViewAdapter(this, aufgaben,this);
         rvDirtyMeter.setAdapter(rvAdapterDirtyMeter);
         rvDirtyMeter.setLayoutManager(new LinearLayoutManager(this));
 
@@ -66,15 +67,37 @@ public class HomeScreenActivity extends AppCompatActivity {
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         return (ArrayList<Mitbewohni>) db.mitbewohniDao().getMitbewohniByWgName(RoleManager.getWGName(this));
     }
-    private void setUpRooms(){
-        String[] roomnames = {"Küche", "Wohnzimmer", "Badezimmer", "HWR", "Flur"};
-        String[] dates = {"23.04", "11.03", "17.06", "19.9", "11.12"};
-        for (int i = 0; i < roomnames.length; i++){
-            rooms.add(new RoomModel(roomnames[i], dates[i]));
-        }
+    private ArrayList<Aufgaben> getAufgaben(){
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        return (ArrayList<Aufgaben>) db.aufgabenDao().getAufgabeByWgName(RoleManager.getWGName(this));
     }
     public void editWG(View v){
         Intent i = new Intent(this, EditWg.class);
+        startActivity(i);
+    }
+
+    public void cleanNow(View v){
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        Date currentDate = new Date();
+        db.aufgabenDao().updateDateLastCleaned(1,currentDate);
+        db.mitbewohniDao().decrementRing(RoleManager.getWGName(this), RoleManager.getMitbewohnerName(this));
+        Intent i = getIntent();
+        startActivity(i);
+    }
+
+    public void incrementRings(View v){
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        db.mitbewohniDao().incrementRings(RoleManager.getWGName(this));
+        Intent i = getIntent();
+        startActivity(i);
+    }
+
+
+    @Override
+    public void onButtonClicked(Aufgaben aufgabe) {
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        db.aufgabenDao().delete(aufgabe);
+        Intent i = getIntent();
         startActivity(i);
     }
 }

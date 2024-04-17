@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddWg">
+    tools:context=".control.AddWg">
 
     <EditText
         android:id="@+id/editTextWGName"
@@ -13,7 +13,7 @@
         android:layout_height="65dp"
         android:layout_marginTop="240dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="text|textPersonName"
         android:text="WG Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -21,12 +21,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextWgPswrd"
+        android:id="@+id/editTextWgMitbewohni"
         android:layout_width="228dp"
         android:layout_height="65dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="Passwort"
+        android:inputType="text|textPersonName"
+        android:text="Mitbewohni Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -56,5 +56,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextWgPswrd" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextWgMitbewohni" />
 </androidx.constraintlayout.widget.ConstraintLayout>

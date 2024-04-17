@@ -1,4 +1,4 @@
-package com.example.myapp;
+package com.example.myapp.control;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +12,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp.R;
+import com.example.myapp.model.RoleManager;
 import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
+import com.example.myapp.model.database.Mitbewohni;
 import com.example.myapp.model.database.Wohngemeinschaft;
-import com.example.myapp.model.database.WohngemeinschaftDao;
 
 public class AddWg extends AppCompatActivity {
-    EditText wgnameInput, pswrdInput;
+    EditText wgnameInput, mitbewohniInput;
     Button addButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,14 @@ public class AddWg extends AppCompatActivity {
             return insets;
         });
         wgnameInput = findViewById(R.id.editTextWGName);
-        pswrdInput = findViewById(R.id.editTextWgPswrd);
+        mitbewohniInput = findViewById(R.id.editTextWgMitbewohni);
 
     }
     public void addWg(View v){
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
-        //DataBaseHelper db = new DataBaseHelper(AddWg.this);
+
         db.wohngemeinschaftDao().insertAll(new Wohngemeinschaft(wgnameInput.getText().toString().trim()));
+        db.mitbewohniDao().insertAll(new Mitbewohni(mitbewohniInput.getText().toString().trim(), wgnameInput.getText().toString().trim(), 0));
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
