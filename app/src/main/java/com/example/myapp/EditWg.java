@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp.model.RoleManager;
 import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
 import com.example.myapp.model.database.Mitbewohni;
@@ -41,8 +42,8 @@ public class EditWg extends AppCompatActivity {
         // db.addMitbewohni(mitbewohniNameInput.getText().toString().trim());
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         String mitbewohniName = mitbewohniNameInput.getText().toString().trim();
-        String wgName = "Shared Pref WG";
-        db.mitbewohniDao().insertAll(new Mitbewohni(mitbewohniName, wgName, 2));
+        String wgRole = RoleManager.getWGName(this);
+        db.mitbewohniDao().insertAll(new Mitbewohni(mitbewohniName, wgRole, 1));
 
         Intent i = new Intent(this, HomeScreenActivity.class);
         startActivity(i);

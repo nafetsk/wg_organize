@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapp.model.MitbewohniModel;
+import com.example.myapp.model.database.Mitbewohni;
 
 import java.util.ArrayList;
 
 public class MitbewohnisRecyclerViewAdapter extends RecyclerView.Adapter<MitbewohnisRecyclerViewAdapter.ViewHolder> {
     Context context;
-    ArrayList<MitbewohniModel> mitbewohniModels;
-    public MitbewohnisRecyclerViewAdapter(Context context, ArrayList<MitbewohniModel> mitbewohniModels){
+    ArrayList<Mitbewohni> mitbewohnis;
+    public MitbewohnisRecyclerViewAdapter(Context context, ArrayList<Mitbewohni> mitbewohnis){
         this.context = context;
-        this.mitbewohniModels = mitbewohniModels;
+        this.mitbewohnis = mitbewohnis;
 
     }
 
@@ -33,13 +33,13 @@ public class MitbewohnisRecyclerViewAdapter extends RecyclerView.Adapter<Mitbewo
     @Override
     public void onBindViewHolder(@NonNull MitbewohnisRecyclerViewAdapter.ViewHolder holder, int position) {
         // Befüllen der Elemente des Recycler Views mit den entsprechenden Daten
-        holder.textViewName.setText(mitbewohniModels.get(position).getMitbewohniName());
-        holder.numberOfRings.setText(String.valueOf(mitbewohniModels.get(position).getNumberOfRings()));
+        holder.textViewName.setText(mitbewohnis.get(position).getName());
+        holder.numberOfRings.setText(String.valueOf(mitbewohnis.get(position).getNumber_of_rings()));
     }
 
     @Override
     public int getItemCount() {
-        return mitbewohniModels.size();
+        return mitbewohnis.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

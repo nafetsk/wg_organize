@@ -9,17 +9,20 @@ import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
 import com.example.myapp.model.database.Mitbewohni;
 import com.example.myapp.model.database.MitbewohniDao;
+import com.example.myapp.model.database.Wohngemeinschaft;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,33 +50,30 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         wgSpinner.setAdapter(adapter);
 
-        // Try new Database
-        //AppDatabase db2 = Room.databaseBuilder(this,
-        //        AppDatabase.class, "database-name").allowMainThreadQueries().build();
+        // Update Mitbewohni Spinner based on WG Decision
+        wgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedWg = wgSpinner.getSelectedItem().toString();
+                updateMitbewohniSpinner(selectedWg);
+            }
 
-        AppDatabase db2 = AppDatabaseFactory.getInstance(this).getDatabase();
-        MitbewohniDao mitbewohniDao = db2.mitbewohniDao();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
-        Mitbewohni m1 = new Mitbewohni("Stefan2","GottesWG",3);
-        Mitbewohni m2 = new Mitbewohni("Sunny","GottesWG",1);
+    }
 
-        mitbewohniDao.insertAll(m1);
-        List<Mitbewohni> mlist = mitbewohniDao.getAll();
-        Mitbewohni mTest = mlist.get(0);
-        String name = mTest.getName();
-        ArrayList<String> mitbewohniNames = new ArrayList<>();
-        mitbewohniNames.add(name);
-
-        // Mitbewohni Spinner
-        //ArrayList<String> mitbewohniNames = getMitbewohniNames();
+    private void updateMitbewohniSpinner(String selectedWg) {
+        ArrayList<String> mitbewohniNames = getMitbewohniNames(selectedWg);
         Spinner mitbewohniSpinner = findViewById(R.id.spinner2);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, mitbewohniNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mitbewohniSpinner.setAdapter(adapter2);
-
-
+        mitbewohniSpinner.setAdapter(adapter);
     }
 
     public void addWg(View v){
@@ -86,7 +86,13 @@ public class MainActivity extends AppCompatActivity {
         Spinner wgSpinner = findViewById(R.id.spinner);
         Spinner mitbewohniSpinner = findViewById(R.id.spinner2);
         String wg = wgSpinner.getSelectedItem().toString();
-        String mitbewohni = mitbewohniSpinner.getSelectedItem().toString();
+        String mitbewohni;
+        if(mitbewohniSpinner.getSelectedItem() == null){
+            mitbewohni = "Notfall Name";
+        }else{
+            mitbewohni = mitbewohniSpinner.getSelectedItem().toString();
+        }
+
         RoleManager.saveRole(this, wg, mitbewohni);
 
         // launch Homescreen
@@ -96,40 +102,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public ArrayList<String> getWgNames(){
-        Cursor cursor = db.readAllData();
-        ArrayList<String> wgNames = new ArrayList<>();
-        if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            while(cursor.moveToNext()){
-                wgNames.add(cursor.getString(1));
-            }
-        }
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        List<Wohngemeinschaft> wgs = db.wohngemeinschaftDao().getAll();
+        ArrayList<String> wgNames = (ArrayList<String>) wgs.stream().map(Wohngemeinschaft::getName).collect(Collectors.toList());
         return wgNames;
-        }
-    public ArrayList<String> getMitbewohniNames() {
-        Cursor cursor = db.readAllDataFromSecondTable();
-        ArrayList<String> mitbewohniNames = new ArrayList<>();
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()) {
-                mitbewohniNames.add(cursor.getString(1));
-            }
-        }
+    }
+    public ArrayList<String> getMitbewohniNames(String wgName) {
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        List<Mitbewohni> mitbewohnis = db.mitbewohniDao().getMitbewohniByWgName(wgName);
+        // Streams sind eine einfach Möglichkeit die Liste von Objekten durch eine Liste ihrer Namen zu ersetzen
+        ArrayList<String> mitbewohniNames = (ArrayList<String>) mitbewohnis.stream().map(Mitbewohni::getName).collect(Collectors.toList());
         return mitbewohniNames;
     }
 
-/*
-    public void handleText(View v){
-        TextView inputField = findViewById(R.id.source);
-        TextView outputField = findViewById(R.id.textView2);
-        String input = inputField.getText().toString();
-        Log.d("info", input);
-        String prevOutput = outputField.getText().toString();
-        String output = prevOutput + input;
-        outputField.setText(output);
-    }
-*/
 }

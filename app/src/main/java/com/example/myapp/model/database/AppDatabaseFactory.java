@@ -12,7 +12,7 @@ public class AppDatabaseFactory {
 
     private AppDatabaseFactory(Context context){
         this.context = context.getApplicationContext();
-        db = Room.databaseBuilder(this.context, AppDatabase.class, "my_database_name").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(this.context, AppDatabase.class, "my_database_name").fallbackToDestructiveMigration().allowMainThreadQueries().build();
     }
     public static AppDatabaseFactory getInstance(Context context) {
         if (instance == null) {

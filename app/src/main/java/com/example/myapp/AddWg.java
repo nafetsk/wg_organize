@@ -12,6 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapp.model.database.AppDatabase;
+import com.example.myapp.model.database.AppDatabaseFactory;
+import com.example.myapp.model.database.Wohngemeinschaft;
+import com.example.myapp.model.database.WohngemeinschaftDao;
+
 public class AddWg extends AppCompatActivity {
     EditText wgnameInput, pswrdInput;
     Button addButton;
@@ -30,8 +35,9 @@ public class AddWg extends AppCompatActivity {
 
     }
     public void addWg(View v){
-        DataBaseHelper db = new DataBaseHelper(AddWg.this);
-        db.addWG(wgnameInput.getText().toString().trim(), pswrdInput.getText().toString().trim());
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        //DataBaseHelper db = new DataBaseHelper(AddWg.this);
+        db.wohngemeinschaftDao().insertAll(new Wohngemeinschaft(wgnameInput.getText().toString().trim()));
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }

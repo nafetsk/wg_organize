@@ -1,11 +1,9 @@
 package com.example.myapp;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +13,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapp.model.MitbewohniModel;
 import com.example.myapp.model.RoleManager;
 import com.example.myapp.model.RoomModel;
+import com.example.myapp.model.database.AppDatabase;
+import com.example.myapp.model.database.AppDatabaseFactory;
+import com.example.myapp.model.database.Mitbewohni;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -47,7 +48,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         // Mitbewohni Recycler VieW
         RecyclerView rvMitbewohnis = findViewById(R.id.rv_mitbewohnis);
-        ArrayList<MitbewohniModel> mitbewohnis = setUpMitbewohnis();
+        ArrayList<Mitbewohni> mitbewohnis = setUpMitbewohnis();
         MitbewohnisRecyclerViewAdapter rvAdapter = new MitbewohnisRecyclerViewAdapter(this, mitbewohnis);
         rvMitbewohnis.setAdapter(rvAdapter);
         rvMitbewohnis.setLayoutManager(new LinearLayoutManager(this));
@@ -61,22 +62,9 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<MitbewohniModel> setUpMitbewohnis(){
-        ArrayList<String> mitbewohniNames = new ArrayList<>();
-        Cursor cursor = db.readAllDataFromSecondTable();
-        if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            while(cursor.moveToNext()){
-                mitbewohniNames.add(cursor.getString(1));
-            }
-        }
-        ArrayList<MitbewohniModel> mitbewohnis = new ArrayList<>();
-        for (int i = 0; i < mitbewohniNames.size(); i++){
-            mitbewohnis.add(new MitbewohniModel(mitbewohniNames.get(i), 1));
-        }
-        return mitbewohnis;
+    private ArrayList<Mitbewohni> setUpMitbewohnis(){
+        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+        return (ArrayList<Mitbewohni>) db.mitbewohniDao().getMitbewohniByWgName(RoleManager.getWGName(this));
     }
     private void setUpRooms(){
         String[] roomnames = {"Küche", "Wohnzimmer", "Badezimmer", "HWR", "Flur"};

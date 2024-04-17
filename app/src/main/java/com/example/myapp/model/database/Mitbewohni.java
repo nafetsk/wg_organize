@@ -26,4 +26,8 @@ public class Mitbewohni {
     public String getName() {
         return name;
     }
+
+    public int getNumber_of_rings() {
+        return number_of_rings;
+    }
 }
