@@ -4,31 +4,25 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.myapp.model.RoleManager;
+import com.example.myapp.model.database.AppDatabase;
+import com.example.myapp.model.database.AppDatabaseFactory;
+import com.example.myapp.model.database.Mitbewohni;
+import com.example.myapp.model.database.MitbewohniDao;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.myapp.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
 
 
     DataBaseHelper db = new DataBaseHelper(MainActivity.this);
@@ -43,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         };
         */
 
+
+
         // WG Spinner
         ArrayList<String> wgNames = getWgNames();
         Spinner wgSpinner = (Spinner) findViewById(R.id.spinner);
@@ -51,9 +47,26 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         wgSpinner.setAdapter(adapter);
 
+        // Try new Database
+        //AppDatabase db2 = Room.databaseBuilder(this,
+        //        AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
+        AppDatabase db2 = AppDatabaseFactory.getInstance(this).getDatabase();
+        MitbewohniDao mitbewohniDao = db2.mitbewohniDao();
+
+
+        Mitbewohni m1 = new Mitbewohni("Stefan2","GottesWG",3);
+        Mitbewohni m2 = new Mitbewohni("Sunny","GottesWG",1);
+
+        mitbewohniDao.insertAll(m1);
+        List<Mitbewohni> mlist = mitbewohniDao.getAll();
+        Mitbewohni mTest = mlist.get(0);
+        String name = mTest.getName();
+        ArrayList<String> mitbewohniNames = new ArrayList<>();
+        mitbewohniNames.add(name);
 
         // Mitbewohni Spinner
-        ArrayList<String> mitbewohniNames = getMitbewohniNames();
+        //ArrayList<String> mitbewohniNames = getMitbewohniNames();
         Spinner mitbewohniSpinner = findViewById(R.id.spinner2);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, mitbewohniNames);

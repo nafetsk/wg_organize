@@ -15,6 +15,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapp.model.MitbewohniModel;
+import com.example.myapp.model.RoleManager;
+import com.example.myapp.model.RoomModel;
+
 import java.util.ArrayList;
 
 

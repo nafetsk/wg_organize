@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapp.model.MitbewohniModel;
+
 import java.util.ArrayList;
 
 public class MitbewohnisRecyclerViewAdapter extends RecyclerView.Adapter<MitbewohnisRecyclerViewAdapter.ViewHolder> {
