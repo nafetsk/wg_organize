@@ -17,6 +17,7 @@ import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
 import com.example.myapp.model.database.Aufgaben;
 import com.example.myapp.model.database.Mitbewohni;
+import com.example.myapp.model.sync.SyncService;
 
 
 public class EditWg extends AppCompatActivity {
@@ -42,6 +43,27 @@ public class EditWg extends AppCompatActivity {
         String mitbewohniName = mitbewohniNameInput.getText().toString().trim();
         String wgRole = RoleManager.getWGName(this);
         db.mitbewohniDao().insertAll(new Mitbewohni(mitbewohniName, wgRole, 1));
+
+        // Request to server db
+        SyncService.createMitbewohni(mitbewohniName,new SyncService.Callback() {
+            @Override
+            public void onSuccess(String result) {
+                // Handle successful response
+                runOnUiThread(() -> {
+                    // Update UI with the result
+                    System.out.println("Response: " + result);
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Handle the error
+                runOnUiThread(() -> {
+                    // Show error message to the user
+                    e.printStackTrace();
+                });
+            }
+        });
 
         Intent i = new Intent(this, HomeScreenActivity.class);
         startActivity(i);
