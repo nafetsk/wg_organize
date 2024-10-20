@@ -17,6 +17,7 @@ import com.example.myapp.model.database.AppDatabase;
 import com.example.myapp.model.database.AppDatabaseFactory;
 import com.example.myapp.model.database.Aufgaben;
 import com.example.myapp.model.database.Mitbewohni;
+import com.example.myapp.model.sync.PostCallBack;
 import com.example.myapp.model.sync.SyncService;
 
 
@@ -42,28 +43,11 @@ public class EditWg extends AppCompatActivity {
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         String mitbewohniName = mitbewohniNameInput.getText().toString().trim();
         String wgRole = RoleManager.getWGName(this);
-        db.mitbewohniDao().insertAll(new Mitbewohni(mitbewohniName, wgRole, 1));
+        Mitbewohni new_mitbewohni = new Mitbewohni(mitbewohniName, wgRole, 1);
+        db.mitbewohniDao().insertAll(new_mitbewohni);
 
         // Request to server db
-        SyncService.createMitbewohni(mitbewohniName,new SyncService.Callback() {
-            @Override
-            public void onSuccess(String result) {
-                // Handle successful response
-                runOnUiThread(() -> {
-                    // Update UI with the result
-                    System.out.println("Response: " + result);
-                });
-            }
-
-            @Override
-            public void onError(Exception e) {
-                // Handle the error
-                runOnUiThread(() -> {
-                    // Show error message to the user
-                    e.printStackTrace();
-                });
-            }
-        });
+        SyncService.createMitbewohni(new_mitbewohni, new PostCallBack());
 
         Intent i = new Intent(this, HomeScreenActivity.class);
         startActivity(i);
@@ -72,7 +56,13 @@ public class EditWg extends AppCompatActivity {
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         String aufgabeName = aufgabeNameInput.getText().toString().trim();
         String wgRole = RoleManager.getWGName(this);
-        db.aufgabenDao().insertAll(new Aufgaben(aufgabeName, wgRole, null));
+        Aufgaben new_aufgabe = new Aufgaben(aufgabeName, wgRole, null);
+        db.aufgabenDao().insertAll(new_aufgabe);
+
+        // Request to server db
+        SyncService.createAufgabe(new_aufgabe, new PostCallBack());
+
+
         Intent i = new Intent(this, HomeScreenActivity.class);
         startActivity(i);
     }

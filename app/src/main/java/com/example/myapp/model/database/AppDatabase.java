@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 @TypeConverters(DateConverter.class)
-@Database(entities = {Mitbewohni.class, Wohngemeinschaft.class, Aufgaben.class}, version = 4)
+@Database(entities = {Mitbewohni.class, Wohngemeinschaft.class, Aufgaben.class}, version = 6)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MitbewohniDao mitbewohniDao();
     public abstract WohngemeinschaftDao wohngemeinschaftDao();

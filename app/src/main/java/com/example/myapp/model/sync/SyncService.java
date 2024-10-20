@@ -8,6 +8,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.example.myapp.model.database.Aufgaben;
+import com.example.myapp.model.database.Mitbewohni;
+import com.google.gson.Gson;
+
 public class SyncService {
 
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -42,10 +46,21 @@ public class SyncService {
         });
     }
 
-    public static void createMitbewohni(String name, Callback callback) {
-        String data = "{\"name\": \"" + name + "\"}";
-        makePostRequest("http://10.0.2.2:8000/create_mitbewohni/", data, callback);
+    public static void createMitbewohni(Mitbewohni mitbewohni, Callback callback) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(mitbewohni);
+
+        makePostRequest("http://10.0.2.2:8000/create_mitbewohni/", jsonString, callback);
     }
+
+    public static void createAufgabe(Aufgaben aufgabe, Callback callback) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(aufgabe);
+
+        makePostRequest("http://10.0.2.2:8000/create_aufgabe/", jsonString, callback);
+    }
+
+
 
     public interface Callback {
         void onSuccess(String result);
