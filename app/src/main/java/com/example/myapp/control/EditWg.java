@@ -20,6 +20,8 @@ import com.example.myapp.model.database.Mitbewohni;
 import com.example.myapp.model.sync.PostCallBack;
 import com.example.myapp.model.sync.SyncService;
 
+import java.util.Date;
+
 
 public class EditWg extends AppCompatActivity {
 
@@ -56,7 +58,7 @@ public class EditWg extends AppCompatActivity {
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         String aufgabeName = aufgabeNameInput.getText().toString().trim();
         String wgRole = RoleManager.getWGName(this);
-        Aufgaben new_aufgabe = new Aufgaben(aufgabeName, wgRole, null);
+        Aufgaben new_aufgabe = new Aufgaben(aufgabeName, wgRole, new Date());
         db.aufgabenDao().insertAll(new_aufgabe);
 
         // Request to server db

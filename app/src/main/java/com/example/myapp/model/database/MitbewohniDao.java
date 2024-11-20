@@ -33,4 +33,10 @@ public interface MitbewohniDao {
     @Delete
     void delete(Mitbewohni mitbewohni);
 
+    // Clear all mitbewohnis of a specific WG by wg_name
+    @Query("DELETE FROM mitbewohni_table WHERE wg_name = :wgName")
+    void clearByWgName(String wgName);
+
+    @Query("DELETE FROM mitbewohni_table")
+    void deleteAll();
 }

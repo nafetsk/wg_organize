@@ -42,4 +42,12 @@ public class Mitbewohni {
     public String getM_id(){
         return m_id;
     }
+
+    public void setName(String mitbewohniName) {
+        this.name = mitbewohniName;
+    }
+
+    public void setWgName(String s) {
+        this.wg_name = s;
+    }
 }

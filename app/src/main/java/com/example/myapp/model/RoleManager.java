@@ -26,6 +26,7 @@ public class RoleManager {
         return sharedPreferences.getString(KEY_MITBEWOHNER_NAME, null);
     }
 
+
     public static void clearRole(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

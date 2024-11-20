@@ -19,15 +19,20 @@ public interface AufgabenDao {
             "last_name LIKE :last LIMIT 1")
     User findByName(String first, String last);
     */
-    @Query("SELECT * FROM aufgaben_table WHERE wg_name = :wgName")
+    @Query("SELECT * FROM aufgaben_table WHERE wg_name = :wgName ORDER BY date_last_cleaned ASC")
     List<Aufgaben> getAufgabeByWgName(String wgName);
 
-    @Query("UPDATE aufgaben_table SET date_last_cleaned = :newDate WHERE a_id = :a_id")
-    void updateDateLastCleaned(int a_id, Date newDate);
+    @Query("UPDATE aufgaben_table SET date_last_cleaned = :newDate WHERE date_last_cleaned = (SELECT MIN(date_last_cleaned) FROM aufgaben_table)")
+    void updateDateLastCleaned(Date newDate);
 
+    @Query("SELECT * FROM aufgaben_table WHERE date_last_cleaned = :newDate LIMIT 1")
+    Aufgaben getUpdatedAufgabe(Date newDate);
     @Insert
     void insertAll(Aufgaben... aufgaben);
 
     @Delete
     void delete(Aufgaben aufgabe);
+
+    @Query("DELETE FROM aufgaben_table WHERE wg_name = :wgName")
+    void clearByWgName(String wgName);
 }

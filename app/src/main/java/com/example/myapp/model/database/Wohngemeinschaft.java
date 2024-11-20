@@ -25,4 +25,8 @@ public class Wohngemeinschaft {
     }
 
     public String getWg_id() { return this.wg_id;}
+
+    public void setName(String wgName) {
+        this.wg_name = wgName;
+    }
 }

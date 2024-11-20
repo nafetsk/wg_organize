@@ -23,4 +23,7 @@ public interface WohngemeinschaftDao {
 
     @Delete
     void delete(Wohngemeinschaft wg);
+
+    @Query("DELETE FROM wg_table")
+    void deleteAll();
 }
