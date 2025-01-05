@@ -35,6 +35,7 @@ import java.util.List;
 
 
 public class HomeScreenActivity extends AppCompatActivity implements DeleteAufgabeListener {
+    private AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +72,15 @@ public class HomeScreenActivity extends AppCompatActivity implements DeleteAufga
 
     }
 
+    public void setDatabase(AppDatabase database) {
+        this.database = database;
+    }
     private ArrayList<Mitbewohni> setUpMitbewohnis(){
         AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
         return (ArrayList<Mitbewohni>) db.mitbewohniDao().getMitbewohniByWgName(RoleManager.getWGName(this));
     }
-    private ArrayList<Aufgaben> getAufgaben(String wgName){
-        AppDatabase db = AppDatabaseFactory.getInstance(this).getDatabase();
+    public ArrayList<Aufgaben> getAufgaben(String wgName){
+        AppDatabase db = this.database;
         return (ArrayList<Aufgaben>) db.aufgabenDao().getAufgabeByWgName(wgName);
     }
     public void editWG(View v){

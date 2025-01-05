@@ -16,13 +16,14 @@
             </Target>
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-10-29T17:15:05.550652Z" />
+          <multipleDevicesSelectedInDropDown value="true" />
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Small_Phone_API_VanillaIceCream.avd" />
+                  <value value="$USER_HOME$/.android/avd/Pixel_8_Pro_API_VanillaIceCream_2.avd" />
                 </Key>
               </deviceKey>
             </Target>
@@ -37,6 +38,9 @@
             </Target>
           </targetsSelectedWithDialog>
         </State>
+      </entry>
+      <entry key="getAufgaben_WGExistsWithTasks()">
+        <State />
       </entry>
       <entry key="spinnerShowsWgs()">
         <State />

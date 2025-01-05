@@ -47,10 +47,11 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.android)
-    testImplementation(libs.mockito.junit.jupiter)
+    //testImplementation(libs.mockito.junit.jupiter)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.junit.jupiter)
+    androidTestImplementation("org.mockito:mockito-android:5.7.0")
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
